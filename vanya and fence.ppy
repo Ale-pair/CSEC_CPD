@@ -1,0 +1,13 @@
+def min_road_width():
+    # Read input values
+    n, h = map(int, input("Enter n and h: ").split())
+    heights = list(map(int, input(f"Enter {n} heights: ").split()))
+    
+    # Calculate the required width
+    width = sum(2 if height > h else 1 for height in heights)
+    
+    # Print the result
+    print("Minimum road width:", width)
+
+# Run the function
+min_road_width()
