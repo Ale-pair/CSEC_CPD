@@ -1,35 +1,26 @@
-def simulate_shots(n, birds, m, shots):
-    for shot in shots:
-        xi, yi = shot
-        xi -= 1  # Convert to 0-based index
-        yi -= 1  # Convert to 0-based index
-        
-        # Number of birds to move
-        birds_to_move_left = yi
-        birds_to_move_right = birds[xi] - yi - 1
-        
-        # Update the number of birds on the current wire
-        birds[xi] -= 1
-        
-        # Move birds to the upper wire if possible
-        if xi > 0:
-            birds[xi - 1] += birds_to_move_left
-        
-        # Move birds to the lower wire if possible
-        if xi < n - 1:
-            birds[xi + 1] += birds_to_move_right
+def update_birds(n, a, m, shots):
+    for x, y in shots:
+        x -= 1  # Convert to 0-based index
+        y -= 1  # Convert to 0-based index
+        # Birds to the left of the shot bird jump up
+        if x > 0:
+            a[x-1] += y
+        # Birds to the right of the shot bird jump down
+        if x < n-1:
+            a[x+1] += a[x] - y - 1
+        # The shot bird dies
+        a[x] = 0
+    return a
 
-    return birds
-
-# Input
-n = int(input())  # number of wires
-birds = list(map(int, input().split()))  # initial bird counts on each wire
-m = int(input())  # number of shots
+# Read input
+n = int(input())
+a = list(map(int, input().split()))
+m = int(input())
 shots = [tuple(map(int, input().split())) for _ in range(m)]
 
-# Process the shots
-result = simulate_shots(n, birds, m, shots)
+# Update the number of birds after each shot
+result = update_birds(n, a, m, shots)
 
-# Output the final result
-for count in result:
-    print(count)
+# Print the result
+for res in result:
+    print(res)
